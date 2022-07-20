@@ -12,12 +12,14 @@ logger = logging.getLogger(__name__)
 
 # noinspection PyPep8Naming,PyPep8Naming
 class PersistingSparkListener(SparkListener):
-    def __init__(self):
+    def __init__(self, keep_java_records: bool = True):
+        self.keep_java_records = keep_java_records
         self.java_events = collections.defaultdict(list)
         self.python_events = collections.defaultdict(list)
 
     def on_spark_event(self, event_name, java_event):
-        self.java_events[event_name].append(java_event)
+        if self.keep_java_records:
+            self.java_events[event_name].append(java_event)
         try:
             self.python_events[event_name].append(self.from_java_event(event_name, java_event))
         except:
@@ -65,8 +67,8 @@ class PersistingSparkListener(SparkListener):
 
 
 class ContextSparkListener(PersistingSparkListener):
-    def __init__(self):
-        super(ContextSparkListener, self).__init__()
+    def __init__(self, **kwargs):
+        super(ContextSparkListener, self).__init__(**kwargs)
         self.listeners = []  # type: List[SparkListener]
 
     def __enter__(self):
