@@ -5,7 +5,6 @@ import pytest
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 
-import pyspark_spy
 from pyspark_spy import listeners
 
 

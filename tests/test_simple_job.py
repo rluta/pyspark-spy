@@ -2,8 +2,6 @@ import time
 
 import pytest
 
-import pyspark_spy
-
 
 @pytest.fixture(scope='module', autouse=True)
 def spark_job(sc, listener):
