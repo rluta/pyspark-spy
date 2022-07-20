@@ -10,7 +10,7 @@ Collect and aggregate on spark events for profitz. In 🐍 way!
 ## Installation
 
 ```shell
-pip install pyspark-spy
+pip install pyspark-spy[spark]
 ```
 
 ## How to
