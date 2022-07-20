@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyspark-spy"
-version = "1.0.2"
+version = "1.0.3.dev0"
 description = "Collect and aggregate on spark events for profitz. In 🐍 way!"
 authors = ["Alexander Gorokhov <sashgorokhov@gmail.com>"]
 license = "MIT"
@@ -12,16 +12,14 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.7"
-pyspark = { version=">=2.3.0", optional=true }
+pyspark = { version=">=2.4,<3.2", optional=true }
 
 [tool.poetry.extras]
 spark = ["pyspark"]
 
 [tool.poetry.dev-dependencies]
-pyspark = ">=2.3.0"
-tox = "*"
+pyspark = ">=2.4,<3.2"
 pytest = "*"
-ipython = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry>=1.1.4"]
