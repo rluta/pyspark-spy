@@ -1,5 +1,5 @@
+import dataclasses
 import logging
-from typing import NamedTuple
 
 from pyspark_spy.util import get_java_values, from_optional
 
@@ -20,11 +20,11 @@ class JavaClass:
         raise NotImplementedError()
 
 
-class JobEndEvent(JavaClass, NamedTuple('JobEndEvent', [
-    ('jobId', int),
-    ('time', int),
-    ('jobResult', str)
-])):
+@dataclasses.dataclass
+class JobEndEvent(JavaClass):
+    jobId: int
+    time: int
+    jobResult: int
 
     @classmethod
     def try_convert(cls, jobj):
@@ -38,80 +38,82 @@ class JobEndEvent(JavaClass, NamedTuple('JobEndEvent', [
         )
 
 
-class OutputMetrics(JavaClass, NamedTuple('OutputMetrics', [
-    ('bytesWritten', int),
-    ('recordsWritten', int)
-])):
+@dataclasses.dataclass
+class OutputMetrics(JavaClass):
+    bytesWritten: int
+    recordsWritten: int
+
     @classmethod
     def try_convert(cls, jobj):
         """
         :rtype: OutputMetrics
         """
-        return cls(**get_java_values(jobj, fields=cls._fields))
+        return cls(**get_java_values(jobj, fields=cls.__annotations__.keys()))
 
 
-class InputMetrics(JavaClass, NamedTuple('InputMetrics', [
-    ('bytesRead', int),
-    ('recordsRead', int)
-])):
+@dataclasses.dataclass
+class InputMetrics(JavaClass):
+    bytesRead: int
+    recordsRead: int
+
     @classmethod
     def try_convert(cls, jobj):
         """
         :rtype: InputMetrics
         """
-        return cls(**get_java_values(jobj, fields=cls._fields))
+        return cls(**get_java_values(jobj, fields=cls.__annotations__.keys()))
 
 
-class ShuffleReadMetrics(JavaClass, NamedTuple('ShuffleReadMetrics', [
-    ('fetchWaitTime', int),
-    ('localBlocksFetched', int),
-    ('localBytesRead', int),
-    ('recordsRead', int),
-    ('remoteBlocksFetched', int),
-    ('remoteBytesRead', int),
-    ('remoteBytesReadToDisk', int),
-    ('totalBlocksFetched', int),
-    ('totalBytesRead', int),
-])):
+@dataclasses.dataclass
+class ShuffleReadMetrics(JavaClass):
+    fetchWaitTime: int
+    localBlocksFetched: int
+    localBytesRead: int
+    recordsRead: int
+    remoteBlocksFetched: int
+    remoteBytesRead: int
+    remoteBytesReadToDisk: int
+    totalBlocksFetched: int
+    totalBytesRead: int
 
     @classmethod
     def try_convert(cls, jobj):
         """
         :rtype: ShuffleReadMetrics
         """
-        return cls(**get_java_values(jobj, fields=cls._fields))
+        return cls(**get_java_values(jobj, fields=cls.__annotations__.keys()))
 
 
-class ShuffleWriteMetrics(JavaClass, NamedTuple('ShuffleWriteMetrics', [
-    ('bytesWritten', int),
-    ('recordsWritten', int),
-    ('writeTime', int),
-])):
+@dataclasses.dataclass
+class ShuffleWriteMetrics(JavaClass):
+    bytesWritten: int
+    recordsWritten: int
+    writeTime: int
 
     @classmethod
     def try_convert(cls, jobj):
         """
         :rtype: ShuffleWriteMetrics
         """
-        return cls(**get_java_values(jobj, fields=cls._fields))
+        return cls(**get_java_values(jobj, fields=cls.__annotations__.keys()))
 
 
-class TaskMetrics(JavaClass, NamedTuple('TaskMetrics', [
-    ('diskBytesSpilled', int),
-    ('executorCpuTime', int),
-    ('executorDeserializeCpuTime', int),
-    ('executorDeserializeTime', int),
-    ('executorRunTime', int),
-    ('jvmGCTime', int),
-    ('memoryBytesSpilled', int),
-    ('peakExecutionMemory', int),
-    ('resultSerializationTime', int),
-    ('resultSize', int),
-    ('outputMetrics', OutputMetrics),
-    ('inputMetrics', InputMetrics),
-    ('shuffleReadMetrics', ShuffleReadMetrics),
-    ('shuffleWriteMetrics', ShuffleWriteMetrics),
-])):
+@dataclasses.dataclass
+class TaskMetrics(JavaClass):
+    diskBytesSpilled: int
+    executorCpuTime: int
+    executorDeserializeCpuTime: int
+    executorDeserializeTime: int
+    executorRunTime: int
+    jvmGCTime: int
+    memoryBytesSpilled: int
+    peakExecutionMemory: int
+    resultSerializationTime: int
+    resultSize: int
+    outputMetrics: OutputMetrics
+    inputMetrics: InputMetrics
+    shuffleReadMetrics: ShuffleReadMetrics
+    shuffleWriteMetrics: ShuffleWriteMetrics
 
     @classmethod
     def try_convert(cls, jobj):
@@ -129,16 +131,16 @@ class TaskMetrics(JavaClass, NamedTuple('TaskMetrics', [
         )
 
 
-class StageInfo(JavaClass, NamedTuple('StageInfo', [
-    ('name', str),
-    ('numTasks', int),
-    ('stageId', int),
-    ('attemptNumber', int),
-    ('submissionTime', int),
-    ('completionTime', int),
-    ('failureReason', str),
-    ('taskMetrics', TaskMetrics),
-])):
+@dataclasses.dataclass
+class StageInfo(JavaClass):
+    name: str
+    numTasks: int
+    stageId: int
+    attemptNumber: int
+    submissionTime: int
+    completionTime: int
+    failureReason: str
+    taskMetrics: TaskMetrics
 
     @classmethod
     def try_convert(cls, jobj):
@@ -154,9 +156,9 @@ class StageInfo(JavaClass, NamedTuple('StageInfo', [
         )
 
 
-class StageCompletedEvent(JavaClass, NamedTuple('StageCompletedEvent', [
-    ('stageInfo', StageInfo),
-])):
+@dataclasses.dataclass
+class StageCompletedEvent(JavaClass):
+    stageInfo: StageInfo
 
     @classmethod
     def try_convert(cls, jobj):
